@@ -1,13 +1,13 @@
 
-import { Outlet } from 'react-router'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import Content from './Content'
 
 const Body = () => {
   return (
-    <div>
+    <div className='font-dancing'>
       <Navbar />
-      <Outlet />
+      <Content />
       <Footer />
     </div>
   )

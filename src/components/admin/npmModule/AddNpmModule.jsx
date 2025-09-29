@@ -44,7 +44,7 @@ const AddNpmModule = () => {
           
 
 
-            
+            <p className='text-primary'>Add more module using "," seperated</p>
             <div className="card-actions justify-end">
             <Link className="btn btn-warning" to={'/admin/npmModule'}>Cancel</Link>
             <button className="btn btn-primary" onClick={()=>handleAddModule(techStack, helper)}>Add Npm module</button>

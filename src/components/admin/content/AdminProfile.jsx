@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { BASE_URL } from '../../../utils/constants';
+import { BASE_URL, CITY_PREFERENCE, GENDER_OPTIONS, LOCATION_PREFERENCE } from '../../../utils/constants';
 import validator from "validator"
 import { addUser } from '../../../utils/userSlice';
+import DropDown from './DropDown';
+import InputWithLabel from '../education/InputWithLabel';
 
 const AdminProfile = () => {
   const [name, setName] = useState("")
@@ -46,7 +48,6 @@ const AdminProfile = () => {
 
   const validateForm = (name, age, gender, description, designation, contactEmail, profileImageUrl, locationPreference, cityPreference) => {
     try {
-      console.log(name, age, gender, description, designation, contactEmail, profileImageUrl, locationPreference, cityPreference)
       if (!name || !age || !gender || !description || !designation || !contactEmail || !profileImageUrl || !locationPreference || !cityPreference) throw new Error("Field cannot be empty")
       if (!validator.isEmail(contactEmail)) throw new Error("Email is invalid")
       if (!validator.isURL(profileImageUrl)) throw new Error("Profile image url is invalid")
@@ -64,7 +65,6 @@ const AdminProfile = () => {
       try {
         if (result) {
           const updateProfile = await axios.patch(BASE_URL + "/user/profile", { name, age, gender, description, designation, contactEmail, profileImageUrl, locationPreference, cityPreference }, { withCredentials: true })
-          console.log(updateProfile)
           setResponse(updateProfile?.data?.message)
         }
 
@@ -95,56 +95,56 @@ const AdminProfile = () => {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={submitForm}>
 
-            <div>
-              <label htmlFor="name" className="block text-sm/6 font-medium dark:text-gray-100">
-                Full Name
+           <InputWithLabel Label={"Full Name: "} 
+            value={name} setValue = {setName}
+            optional={""}
+            />
+
+          <InputWithLabel Label={"Age "} 
+            value={age} setValue = {setAge}
+            optional={""} type={'number'}
+            />
+
+               <div className='flex flex-row justify-between'>
+             <div >
+               <label htmlFor="locationPreference" className="block text-sm/6 font-medium dark:text-gray-100">
+                Location Preference
               </label>
+             </div>
               <div className="mt-2">
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  autoComplete="name"
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base  dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
+                 <div className="mt-2">
+                <DropDown SKILL_CATEGORIES={LOCATION_PREFERENCE} setCategory={setLocationPreference} category={locationPreference}/>
+              </div>
               </div>
             </div>
 
-            <div>
-              <label htmlFor="age" className="block text-sm/6 font-medium dark:text-gray-100">
-                Age
+
+            <div className='flex flex-row justify-between'>
+              <div >
+                <label htmlFor="cityPreference" className="block text-sm/6 font-medium dark:text-gray-100">
+                City Preference
               </label>
+              </div>
               <div className="mt-2">
-                <input
-                  id="age"
-                  name="age"
-                  type="number"
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                  autoComplete="email"
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
+                <DropDown SKILL_CATEGORIES={CITY_PREFERENCE} setCategory={setCityPreference} category={cityPreference}/>
               </div>
             </div>
 
-            <div>
-              <label htmlFor="gender" className="block text-sm/6 font-medium dark:text-gray-100">
+
+            <div className='flex flex-row justify-between'>
+             <div >
+               <label htmlFor="locationPreference" className="block text-sm/6 font-medium dark:text-gray-100">
                 Gender
               </label>
+             </div>
               <div className="mt-2">
-                <input
-                  id="gender"
-                  name="gender"
-                  type="text"
-
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  autoComplete="gender"
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
+                 <div className="mt-2">
+                <DropDown SKILL_CATEGORIES={GENDER_OPTIONS} setCategory={setGender} category={gender}/>
+                
               </div>
+
+              </div>
+
             </div>
 
             <div>
@@ -152,101 +152,31 @@ const AdminProfile = () => {
                 Description
               </label>
               <div className="mt-2">
-                <input
-                  id="description"
-                  name="description"
-                  type="text"
+              
+                <textarea className="textarea  w-96  block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                 placeholder="Bio"  value={description}
+                  onChange={(e) => setDescription(e.target.value)}></textarea>
 
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
               </div>
             </div>
 
-            <div>
-              <label htmlFor="designation" className="block text-sm/6 font-medium dark:text-gray-100">
-                Designation
-              </label>
-              <div className="mt-2">
-                <input
-                  id="designation"
-                  name="designation"
-                  type="text"
-                  value={designation}
-                  onChange={(e) => setDesignation(e.target.value)}
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
-              </div>
-            </div>
+            <InputWithLabel Label={"Designation "} 
+            value={designation} setValue = {setDesignation}
+            optional={""} 
+            />
 
-            <div>
-              <label htmlFor="contactEmail" className="block text-sm/6 font-medium dark:text-gray-100">
-                Contact Email
-              </label>
-              <div className="mt-2">
-                <input
-                  id="contactEmail"
-                  name="contactEmail"
-                  type="text"
+            <InputWithLabel Label={"Contact Email "} 
+            value={contactEmail} setValue = {setContactEmail}
+            optional={""} 
+            />
 
-                  value={contactEmail}
-                  onChange={(e) => setContactEmail(e.target.value)}
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
-              </div>
-            </div>
+            <InputWithLabel Label={"Profile Image Url "} 
+            value={profileImageUrl} setValue = {setProfileImageUrl}
+            optional={""} 
+            />
 
-            <div>
-              <label htmlFor="profileImageUrl" className="block text-sm/6 font-medium dark:text-gray-100">
-                Profile Image Url
-              </label>
-              <div className="mt-2">
-                <input
-                  id="profileImageUrl"
-                  name="profileImageUrl"
-                  type="text"
+         
 
-                  value={profileImageUrl}
-                  onChange={(e) => setProfileImageUrl(e.target.value)}
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="locationPreference" className="block text-sm/6 font-medium dark:text-gray-100">
-                Location Preference
-              </label>
-              <div className="mt-2">
-                <input
-                  id="locationPreference"
-                  name="locationPreference"
-                  type="text"
-
-                  value={locationPreference}
-                  onChange={(e) => setLocationPreference(e.target.value)}
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="cityPreference" className="block text-sm/6 font-medium dark:text-gray-100">
-                City Preference
-              </label>
-              <div className="mt-2">
-                <input
-                  id="cityPreference"
-                  name="cityPreference"
-                  type="text"
-
-                  value={cityPreference}
-                  onChange={(e) => setCityPreference(e.target.value)}
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
-              </div>
-            </div>
 
             <div>
               {error && <div role="alert" className="alert alert-vertical alert-error dark:text-gray-50 my-1">

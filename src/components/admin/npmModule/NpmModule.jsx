@@ -28,11 +28,14 @@ const NpmModule = () => {
 
    const deleteNpmModule = async(techstack,name)=>{
         try {
-            const deleteResult = await axios.delete(BASE_URL+"/user/npmModules/"+techstack+"/"+name, {withCredentials:true})
-             const {techStack } = deleteResult?.data?.data
+            const deleteResult = await axios.delete(BASE_URL+"/user/npmModules/"+techstack+"/"+name, 
+              {withCredentials:true})
+            if(deleteResult){
+              const {techStack } = deleteResult?.data?.data
             dispatch(removeModule())
             dispatch(addModule(techStack))
             setResponse(deleteResult?.data?.message)
+             }
         } catch (error) {
           console.log(error)
           setError(error?.response?.data?.message)
@@ -67,7 +70,7 @@ fetchNpmModule()
           {npmModule && npmModule.map((item)=>{ 
             const {_id, helperName, techStack} = item
            return(
-            <NpmModuleCard key={_id}  _id={_id} helperName={helperName} deleteNpmModule={deleteNpmModule}  techStack={techStack} />
+           <div key={_id}> { helperName.length>0 && <NpmModuleCard key={_id}  _id={_id} helperName={helperName} deleteNpmModule={deleteNpmModule}  techStack={techStack} />} </div>
            )
           })}
         </div>

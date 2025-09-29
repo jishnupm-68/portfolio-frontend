@@ -8,3 +8,4 @@ export const CITY_PREFERENCE = ["bangalore", "kerala","calicut",  "kochi", "chen
 export const LOCATION_PREFERENCE = ["remote", "hybrid", "onsite","any"];
 export const GENDER_OPTIONS = ["male", "female", "other"];
 export const TECH_STACK = ["java", "javascript", "python", "c++", "c#", "php", "ruby", "go", "swift", "kotlin", "typescript", "rust", "scala", "perl", "haskell", "clojure", "elixir", "dart"]
+export const PROJECT_CATEGORY = ["it", "non-it"]

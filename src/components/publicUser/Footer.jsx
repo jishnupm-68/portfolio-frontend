@@ -3,6 +3,7 @@ import { FaGithub } from "react-icons/fa6";
 import { TbBrandLeetcode } from "react-icons/tb";
 import { FaLinkedin } from "react-icons/fa";
 import { Link } from 'react-router';
+import EmailComponent from './contents/EmailComponent';
 const Footer = () => {
   return (
     <div className='fixed bottom-0 right-0 left-0'>
@@ -35,16 +36,7 @@ const Footer = () => {
   </nav>
   <form>
     <h6 className="footer-title">Contact us</h6>
-    <fieldset className="w-80">
-      <label>Enter your email address</label>
-      <div className="join">
-        <input
-          type="text"
-          placeholder="username@site.com"
-          className="input input-bordered join-item" />
-        <button className=" ml-2 btn btn-primary join-item">Connect</button>
-      </div>
-    </fieldset>
+    <EmailComponent/>
     
   </form>
 </footer>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BASE_URL, SKILL_CATEGORIES } from '../../../utils/constants'
 import { PROFICIENCY_LEVELS } from '../../../utils/constants'
 import DropDown from '../content/DropDown'
@@ -15,6 +15,7 @@ const AddSkill = () => {
   
   const handleAddSkill = async(skillCategory, skillName, proficiencyLevel)=>{
       try {
+        if(!skillCategory || !skillName || !proficiencyLevel) return setError("All fields are required")
         const resultAddSkill =await axios.post(BASE_URL+"/user/skill",
           {skillCategory, skillName, proficiencyLevel},
           {withCredentials:true})
@@ -22,9 +23,14 @@ const AddSkill = () => {
 
       } catch (error) {
         console.log(error)
-        
       }
   }
+  useEffect(()=>{
+    const timer = setTimeout(() => {
+      setError("")
+    }, 4000);
+    return ()=>timer
+  },[error])
   return (
     <div className='bg- h-1/3'>
         

@@ -27,8 +27,8 @@ const NavbarAdmin = () => {
 
   }
   return (
-    <div>
-<div className="navbar bg-base-100 shadow-sm">
+    <div >
+<div className="navbar bg-base-100 shadow-sm ">
   <div className="navbar-start">
     {user && <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

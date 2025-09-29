@@ -14,7 +14,6 @@ const Skill = () => {
   const fetchSkill  = async()=>{
     try {
       const skillResult = await axios.get(BASE_URL+"/user/skill",{withCredentials:true})
-      console.log("skill", skillResult)  
       const {skill} = skillResult?.data?.data
       dispatch(addSkill(skill))
 
@@ -26,7 +25,6 @@ const Skill = () => {
    const deleteSkill = async(_id)=>{
         try {
             const deleteResult = await axios.delete(BASE_URL+"/user/skill/"+_id, {withCredentials:true})
-            console.log("res", deleteResult)
             dispatch(removeSkill())
             dispatch(addSkill(deleteResult?.data?.data?.skill))
             setResponse(deleteResult?.data?.message)

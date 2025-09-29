@@ -1,12 +1,21 @@
 
 import Body from './publicUser/Body'
-import Profile from './publicUser/Profile'
+import Education from './publicUser/contents/Education'
+import Profile from './publicUser/contents/Profile'
+import ProfileCard from './publicUser/contents/ProfileCard'
+import Project from './publicUser/contents/Project'
+import Skill from './publicUser/contents/Skill'
 
 const PublicUserRouter = [
     {
       path:'/', element: <Body />,
       children:[
-       { path:"/", element: <Profile />}
+        {path:"/", element:<ProfileCard />},
+        {path:"/profile", element:<ProfileCard />},
+       { path:"/project", element: <Project />},
+       {path:"/education", element:<Education />},
+       {path:"/skill", element:<Skill/>}
+
       ]
     }
   ]

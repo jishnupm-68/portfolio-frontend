@@ -13,8 +13,7 @@ const App = () => {
   return (
 
     <>
-    {/* <PublicUserRouter />
-    <AdminRouter /> */}
+    
     <Provider store={appStore}><RouterProvider router={router}></RouterProvider></Provider>
     </>
   )
