@@ -69,10 +69,21 @@ const EditProject = () => {
             value={title} setValue = {setTitle}
             optional={""}
             />
-             <InputWithLabel Label={"description "} 
-            value={description} setValue = {setDescription}
-            optional={""}
-            />
+            
+            <div>
+              <label  className="block text-sm/6 font-medium dark:text-gray-100">
+                Description
+              </label>
+              <div className="mt-2">
+              
+                <textarea className="textarea  w-96  block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                 placeholder="Bio"  value={description}
+                  onChange={(e) => setDescription(e.target.value)}></textarea>
+
+              </div>
+            </div>
+
+            
              <InputWithLabel Label={"Image url"} 
             value={imageUrl} setValue = {setImageUrl}
             optional={""}

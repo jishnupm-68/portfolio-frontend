@@ -10,6 +10,7 @@ import { Link, Outlet } from 'react-router'
 
 import ProjectCard from './ProjectCard'
 import { addProject } from '../../../utils/projectSlice'
+import useFetchProject from '../../hooks/useFetchProject'
 
 
 
@@ -20,16 +21,8 @@ const Project = () => {
   const [response,setResponse] = useState("")
   const dispatch = useDispatch()
   const project  = useSelector((store)=>store?.project)
-  const fetChProject  = async()=>{
-    try {
-      const projectResult = await axios.get(BASE_URL+"/user/projects",{withCredentials:true}) 
-      const {projects} = projectResult?.data?.data
-       dispatch(addProject(projects))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  
+
+  useFetchProject()
 
     useEffect(()=>{
       const timer = setTimeout(() => {
@@ -40,10 +33,6 @@ const Project = () => {
       return()=>timer
     },[error, response]
   )
-
-  useEffect(()=>{
-fetChProject()
-  },[])
 
   return (
     <div >

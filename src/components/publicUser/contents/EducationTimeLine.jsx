@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { useSelector } from 'react-redux'
-import useFetchEducation from '../hooks/useFetchEducation'
+import useFetchEducation from '../../hooks/useFetchEducation';
 
 const EducationTimeLine = () => {
     const options = { month: "long", year: "numeric" };
@@ -16,10 +16,9 @@ if(!education) return null
   
   
   {education && education.map((item, index)=>{
-    console.log(item.startDate, index)
-    const {institutionName, qualification, startDate, endDate, percentage} = item;
+    const {_id, institutionName, qualification, startDate, endDate, percentage} = item;
     
-    return (<li>
+    return (<li key={_id}>
     <div className="timeline-middle">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +33,7 @@ if(!education) return null
         />
       </svg>
     </div>
-    <div className="timeline-start mb-10 md:text-end">
+    <div className={(index%2==0?"timeline-start ":"timeline-end ")+"mb-10 md:text-end"}>
       <time className="font-mono italic">{new Date(startDate).toLocaleDateString("en-india", {year:"numeric"})}</time>
       <div className="text-lg font-black">{institutionName}</div>
       {qualification}

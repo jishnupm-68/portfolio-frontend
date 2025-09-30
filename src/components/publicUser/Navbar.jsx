@@ -26,7 +26,6 @@ const Navbar =()=> {
   const fetchUser = async()=>{
           try {
               const dataFetched = await axios.get(BASE_URL+'/user/profile')
-              console.log("datafetched is", dataFetched)
               if(dataFetched){
                   const user = dataFetched?.data?.data
                   dispatch(addUser(user))
@@ -85,7 +84,6 @@ const Navbar =()=> {
             >
               <ThemeToggler />
             </button>
-
             {/* Profile dropdown */}
             <Menu as="div" className="relative ml-3">
               <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
@@ -98,7 +96,8 @@ const Navbar =()=> {
                 />}
               </MenuButton>
 
-              <MenuItems
+                  {/* for future implementation */}
+              {/* <MenuItems
                 transition
                 className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in dark:bg-gray-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/"
               >
@@ -110,23 +109,7 @@ const Navbar =()=> {
                     Your profile
                   </a>
                 </MenuItem>
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-gray-300 dark:data-focus:bg-white/5"
-                  >
-                    Settings
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-gray-300 dark:data-focus:bg-white/5"
-                  >
-                    Sign out
-                  </a>
-                </MenuItem>
-              </MenuItems>
+              </MenuItems> */}
             </Menu>
           </div>
         </div>
@@ -137,8 +120,8 @@ const Navbar =()=> {
           {navigation.map((item) => (
             <DisclosureButton
               key={item.name}
-              as="a"
-              href={item.href}
+              as={Link}
+              to={item.to}
               aria-current={item.current ? 'page' : undefined}
               className={classNames(
                 item.current

@@ -1,6 +1,7 @@
 import React from 'react'
-import useFetchProject from '../hooks/useFetchProject'
+
 import { useSelector } from 'react-redux'
+import useFetchProject from '../../hooks/useFetchProject'
 
 const Project = () => {
   useFetchProject()

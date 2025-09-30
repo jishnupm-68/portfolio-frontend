@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router'
 import { addModule, removeModule } from '../../../utils/npmModuleSlice'
 import NpmModuleCard from './NpmModuleCard'
+import useFetchModule from '../../hooks/useFetchModule'
 
 
 
@@ -16,15 +17,8 @@ const NpmModule = () => {
   const [response,setResponse] = useState("")
   const dispatch = useDispatch()
   const npmModule  = useSelector((store)=>store?.npmModule)
-  const fetchNpmModule  = async()=>{
-    try {
-      const npmResult = await axios.get(BASE_URL+"/user/npmModules",{withCredentials:true}) 
-      const {techStack} = npmResult?.data?.data
-      dispatch(addModule(techStack))
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  
+  useFetchModule()
 
    const deleteNpmModule = async(techstack,name)=>{
         try {
@@ -50,10 +44,6 @@ const NpmModule = () => {
       return()=>timer
     },[error, response]
   )
-
-  useEffect(()=>{
-fetchNpmModule()
-  },[])
 
   return (
     <div>

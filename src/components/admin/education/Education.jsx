@@ -9,6 +9,7 @@ import { Link, Outlet } from 'react-router'
 
 import { addEducation } from '../../../utils/education'
 import EducationCard from './EducationCard'
+import useFetchEducation from '../../hooks/useFetchEducation'
 
 
 
@@ -18,17 +19,8 @@ const Education = () => {
   const [response,setResponse] = useState("")
   const dispatch = useDispatch()
   const education  = useSelector((store)=>store?.education)
-  const fetchEducation  = async()=>{
-    try {
-      const educationResult = await axios.get(BASE_URL+"/user/education",
-        {withCredentials:true}) 
-      const {education} = educationResult?.data?.data
-       dispatch(addEducation(education))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  
+
+  useFetchEducation()
 
     useEffect(()=>{
       const timer = setTimeout(() => {
@@ -40,9 +32,6 @@ const Education = () => {
     },[error, response]
   )
 
-  useEffect(()=>{
-fetchEducation()
-  },[])
 
   return (
     <div>

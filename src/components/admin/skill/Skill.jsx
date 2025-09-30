@@ -5,22 +5,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addSkill, removeSkill } from '../../../utils/skillSlice'
 import SkillCard from './SkillCard'
 import { Link, Outlet } from 'react-router'
+import useFetchSkill from '../../hooks/useFetchSkill'
 
 const Skill = () => {
   const [error, setError] = useState("");
   const [response,setResponse] = useState("")
   const dispatch = useDispatch()
   const skill  = useSelector((store)=>store?.skill)
-  const fetchSkill  = async()=>{
-    try {
-      const skillResult = await axios.get(BASE_URL+"/user/skill",{withCredentials:true})
-      const {skill} = skillResult?.data?.data
-      dispatch(addSkill(skill))
+  // const fetchSkill  = async()=>{
+  //   try {
+  //     const skillResult = await axios.get(BASE_URL+"/user/skill",{withCredentials:true})
+  //     const {skill} = skillResult?.data?.data
+  //     dispatch(addSkill(skill))
 
-    } catch (error) {
-      console.log(Error)
-    }
-  }
+  //   } catch (error) {
+  //     console.log(Error)
+  //   }
+  // }
 
    const deleteSkill = async(_id)=>{
         try {
@@ -45,9 +46,10 @@ const Skill = () => {
     },[error, response]
   )
 
-  useEffect(()=>{
-fetchSkill()
-  },[])
+//   useEffect(()=>{
+// fetchSkill()
+//   },[])
+useFetchSkill()
 
   return (
     <div>

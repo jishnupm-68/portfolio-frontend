@@ -1,8 +1,10 @@
 import axios from 'axios'
 import React, { useEffect } from 'react'
-import { BASE_URL } from '../../../utils/constants'
+
 import { useDispatch } from 'react-redux'
-import { addEducation } from '../../../utils/education'
+import { BASE_URL } from '../../utils/constants'
+import { addEducation } from '../../utils/education'
+
 
 const useFetchEducation = () => {
     const dispatch = useDispatch()

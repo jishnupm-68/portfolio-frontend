@@ -46,6 +46,7 @@ const AdminProfile = () => {
     fetchUser()
   }, [])
 
+
   const validateForm = (name, age, gender, description, designation, contactEmail, profileImageUrl, locationPreference, cityPreference) => {
     try {
       if (!name || !age || !gender || !description || !designation || !contactEmail || !profileImageUrl || !locationPreference || !cityPreference) throw new Error("Field cannot be empty")
@@ -107,7 +108,7 @@ const AdminProfile = () => {
 
                <div className='flex flex-row justify-between'>
              <div >
-               <label htmlFor="locationPreference" className="block text-sm/6 font-medium dark:text-gray-100">
+               <label  className="block text-sm/6 font-medium dark:text-gray-100">
                 Location Preference
               </label>
              </div>
@@ -121,7 +122,7 @@ const AdminProfile = () => {
 
             <div className='flex flex-row justify-between'>
               <div >
-                <label htmlFor="cityPreference" className="block text-sm/6 font-medium dark:text-gray-100">
+                <label className="block text-sm/6 font-medium dark:text-gray-100">
                 City Preference
               </label>
               </div>
@@ -133,7 +134,7 @@ const AdminProfile = () => {
 
             <div className='flex flex-row justify-between'>
              <div >
-               <label htmlFor="locationPreference" className="block text-sm/6 font-medium dark:text-gray-100">
+               <label  className="block text-sm/6 font-medium dark:text-gray-100">
                 Gender
               </label>
              </div>
@@ -148,7 +149,7 @@ const AdminProfile = () => {
             </div>
 
             <div>
-              <label htmlFor="description" className="block text-sm/6 font-medium dark:text-gray-100">
+              <label className="block text-sm/6 font-medium dark:text-gray-100">
                 Description
               </label>
               <div className="mt-2">

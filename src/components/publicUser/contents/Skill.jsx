@@ -1,7 +1,8 @@
 import React from 'react'
-import useFetchSkill from '../hooks/useFetchSkill'
+
 import { useSelector } from 'react-redux';
 import { PROFICIENCY_LEVELS } from '../../../utils/constants';
+import useFetchSkill from '../../hooks/useFetchSkill';
 
 const Skill = () => {
   const skillProgressMap = new Map();
@@ -9,39 +10,47 @@ const Skill = () => {
   for(let item=0;item<PROFICIENCY_LEVELS.length;item++){
     skillProgressMap.set(PROFICIENCY_LEVELS[item], ((1/(item+1))*100))
   }
-  console.log(skillProgressMap)
+
   useFetchSkill();
   const skill = useSelector((store)=>store?.skill)
   return (
-    <div className='flex flex-row' >
+    <div >
       <h1  className='text-bold text-2xl m-3 pl-5' >Skill</h1>
 
-     <div>
+     <div >
 
-       {
+
+
+      <div>
+
+      
+
+            <div  className=''>
+
+
+              <div  className="card bg-base-100 w-72 shadow-sm p-1 m-2 mx-auto my-auto">
+                 {
         skill && 
         skill.map((item,  index)=>{
 
           const {_id , skillCategory, skillName, proficiencyLevel} = item;
 
-          return(<div key={_id} className="card bg-base-100 w-96 shadow-sm">
-  <div className="card-body">
+          return(
+  <div key={_id} className="card-body">
     <h2 className="card-title">{skillCategory} : {skillName}</h2>
-    
-    {/* For TSX uncomment the commented types below */}
-<div
-  className="radial-progress bg-primary text-primary-content border-primary border-4"
-  style={{ "--value": skillProgressMap.get(proficiencyLevel) } /* as React.CSSProperties */ } aria-valuenow={skillProgressMap.get(proficiencyLevel)} role="progressbar">
-  {skillProgressMap.get(proficiencyLevel)}%
-</div>
-    <div className="card-actions justify-end">
-      <button className="btn btn-primary">Buy Now</button>
-    </div>
+
+  <progress className="progress progress-primary w-56 " value={skillProgressMap.get(proficiencyLevel)} max="100"></progress>
   </div>
-</div>)
+     )
 
         })
       }
+</div>
+              </div>
+       
+     </div>
+
+
      </div>
 
     </div>
