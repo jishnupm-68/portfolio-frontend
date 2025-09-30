@@ -1,6 +1,5 @@
 
 import { useSelector } from 'react-redux';
-
 import Marquee from "react-fast-marquee";
 import useFetchModule from '../../hooks/useFetchModule';
 const NpmModule = () => {

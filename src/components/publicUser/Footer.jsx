@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { FaGithub } from "react-icons/fa6";
 import { TbBrandLeetcode } from "react-icons/tb";
 import { FaLinkedin } from "react-icons/fa";
@@ -16,25 +16,12 @@ const Footer = () => {
         </div>
       </nav>
 
-      <nav>
-        <h6 className="footer-title">Company</h6>
-        <a className="link link-hover">About us</a>
-        <a className="link link-hover">Contact</a>
-        <a className="link link-hover">Jobs</a>
-        <a className="link link-hover">Press kit</a>
-      </nav>
-
-      <nav>
-        <h6 className="footer-title">Legal</h6>
-        <a className="link link-hover">Terms of use</a>
-        <a className="link link-hover">Privacy policy</a>
-        <a className="link link-hover">Cookie policy</a>
-      </nav>
-
       <form>
+        <h5>Copyright © {(new Date()).getFullYear()} </h5>
         <h6 className="footer-title">Contact us</h6>
         <EmailComponent />
       </form>
+      
     </footer>
   )
 }

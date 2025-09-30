@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const skillSlice = createSlice({
     name:"skill",
     initialState:null,

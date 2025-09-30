@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
-
 const npmModuleSlice = createSlice({
     name:'npmModuleSlice',
     initialState:null,

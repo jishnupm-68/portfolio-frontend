@@ -1,57 +1,40 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { BASE_URL } from '../../../utils/constants'
+
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
-
-import { Link, Outlet } from 'react-router'
-
-
-
+import { Link } from 'react-router'
 import ProjectCard from './ProjectCard'
-import { addProject } from '../../../utils/projectSlice'
 import useFetchProject from '../../hooks/useFetchProject'
-
-
-
 
 
 const Project = () => {
   const [error, setError] = useState("");
-  const [response,setResponse] = useState("")
+  const [response, setResponse] = useState("")
   const dispatch = useDispatch()
-  const project  = useSelector((store)=>store?.project)
-
+  const project = useSelector((store) => store?.project)
   useFetchProject()
-
-    useEffect(()=>{
-      const timer = setTimeout(() => {
-        setError("");
-        setResponse("")
-      }, 3000);
-
-      return()=>timer
-    },[error, response]
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setError("");
+      setResponse("")
+    }, 3000);
+    return () => timer
+  }, [error, response]
   )
 
   return (
     <div >
-   {(error||response) &&     <div role="alert" className={"alert "+( error?"alert-error":"alert-success")}>
-  <span>{error?error:response}</span>
-</div>}
+      {(error || response) && <div role="alert" className={"alert " + (error ? "alert-error" : "alert-success")}>
+        <span>{error ? error : response}</span>
+      </div>}
       <div className='p-2'>
         <h1 className='px-3 text-3xl'>Project
           <button className='btn btn-info ml-2'><Link to={'/admin/project/addProject'}>Add Project</Link></button>
-          </h1> 
-        
-        
+        </h1>
         <div className='flex flex-wrap p-1'>
-    
-{project && (project || []).map((item)=>{
-  const {_id} = item
- return ( <ProjectCard key={_id} item={item} setError={setError} setResponse={setResponse}/>)
-})}
-          
+          {project && (project || []).map((item) => {
+            const { _id } = item
+            return (<ProjectCard key={_id} item={item} setError={setError} setResponse={setResponse} />)
+          })}
         </div>
       </div>
     </div>

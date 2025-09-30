@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
-
 const educationSlice = createSlice({
     name:"edcation",
     initialState:null,
@@ -13,7 +11,5 @@ const educationSlice = createSlice({
     },
 })
 
-
 export default educationSlice.reducer
-
 export const {addEducation, removeEducation} = educationSlice.actions

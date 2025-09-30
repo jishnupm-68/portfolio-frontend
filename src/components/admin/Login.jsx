@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import NavbarAdmin from './NavbarAdmin'
 import validator from "validator"
 import axios from 'axios';
@@ -6,70 +6,71 @@ import { BASE_URL } from '../../utils/constants';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../../utils/userSlice';
+import InputWithLabel from './education/InputWithLabel';
 
 const Login = () => {
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [name, setName] = useState("")
-    const [isLoginForm, setIsLoginForm] = useState(true);
-    const [error, setError] = useState("")
-    const navigate = useNavigate()
-    const dispatch = useDispatch();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("")
+  const [isLoginForm, setIsLoginForm] = useState(true);
+  const [error, setError] = useState("")
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
 
-    const validateForm = (email, password, confirmPassword, name, isLoginForm)=>{
-       try {
-        if(!isLoginForm) {
-            if(!name) throw new Error ("Name is empty")
-        }
-        if(!email) throw new Error("Email is empty")
-        if(!validator.isEmail(email)) throw new Error("Email is invalid")
-        if(!password) throw new Error("Password is empty")
-        if(!isLoginForm) {
-            if(password!==confirmPassword) throw new Error ("Password not same")
-        }
-        if(password.length<8) throw new Error("Password must be atleast 8 characters")
-        return true
-       } catch (error) {
-        setError(error?.message)
-       }
+  const validateForm = (email, password, confirmPassword, name, isLoginForm) => {
+    try {
+      if (!isLoginForm) {
+        if (!name) throw new Error("Name is empty")
+      }
+      if (!email) throw new Error("Email is empty")
+      if (!validator.isEmail(email)) throw new Error("Email is invalid")
+      if (!password) throw new Error("Password is empty")
+      if (!isLoginForm) {
+        if (password !== confirmPassword) throw new Error("Password not same")
+      }
+      if (password.length < 8) throw new Error("Password must be atleast 8 characters")
+      return true
+    } catch (error) {
+      setError(error?.message)
     }
+  }
 
-    const login= async(email, password)=>{
-        try {
-            const userResult = await axios.post(BASE_URL+"/login",
-              {email,password},{withCredentials:true})
-            const user = userResult?.data?.data
-            dispatch(addUser(user))
-            navigate("/admin/profile")            
-        } catch (error) {
-            setError( error?.response?.data?.message)
-        }
+  const login = async (email, password) => {
+    try {
+      const userResult = await axios.post(BASE_URL + "/login",
+        { email, password }, { withCredentials: true })
+      const user = userResult?.data?.data
+      dispatch(addUser(user))
+      navigate("/admin/profile")
+    } catch (error) {
+      setError(error?.response?.data?.message)
     }
+  }
 
-    const signup=async()=>{
-        try {
-            const user = await axios.post(BASE_URL+"/signup",
-              {name,email,password},{withCredentials:true})
-        } catch (error) {
-            setError( error?.response?.data?.message)
-        }
+  const signup = async () => {
+    try {
+      const user = await axios.post(BASE_URL + "/signup",
+        { name, email, password }, { withCredentials: true })
+    } catch (error) {
+      setError(error?.response?.data?.message)
     }
+  }
 
-    const submitForm =(e)=>{
-        e.preventDefault();
-        const result = validateForm(email, password, confirmPassword, name, isLoginForm )
-        if(result && isLoginForm) login(email,password)
-        if(result && !isLoginForm) signup(name,email,password)
-    }
+  const submitForm = (e) => {
+    e.preventDefault();
+    const result = validateForm(email, password, confirmPassword, name, isLoginForm)
+    if (result && isLoginForm) login(email, password)
+    if (result && !isLoginForm) signup(name, email, password)
+  }
 
-    useEffect(()=>{
-        const timer =setTimeout(() => {
-            setError("")
-        }, 3000);
-        return ()=>timer;
-    },[error])
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setError("")
+    }, 3000);
+    return () => timer;
+  }, [error])
 
   return (
     <>
@@ -89,81 +90,38 @@ const Login = () => {
           />
           <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight dark:text-white">{isLoginForm ? "Sign in" : "Sign up"} </h2>
         </div>
-
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={submitForm}>
             {!isLoginForm &&
               <div>
-                <label htmlFor="email" className="block text-sm/6 font-medium dark:text-gray-100">
-                  Full Name
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    autoComplete="email"
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                  />
-                </div>
+                <InputWithLabel Label={"Full Name: "}
+                  value={name} setValue={setName}
+                  optional={""}
+                />
               </div>}
             <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium dark:text-gray-100">
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                 
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
-              </div>
+              <InputWithLabel Label={"Email address: "}
+                value={email} setValue={setEmail}
+                optional={""}
+              />
             </div>
-
             <div>
+              <InputWithLabel Label={"Password: "}
+                value={password} setValue={setPassword}
+                optional={""} type={"password"}
+              />
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm/6 font-medium dark:text-gray-100">
-                  Password
-                </label>
                 <div className="text-sm">
                   {isLoginForm && <a href="#" className="font-semibold text-indigo-400 hover:text-indigo-300">
                     Forgot password?
                   </a>}
                 </div>
               </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+              {!isLoginForm && <div>
+                <InputWithLabel Label={"Confirm Password: "}
+                  value={confirmPassword} setValue={setConfirmPassword}
+                  optional={""} type={"password"}
                 />
-              </div>
-              {!isLoginForm && <div> <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm/6 font-medium dark:text-gray-100">
-                  Confirm Password
-                </label>
-              </div>
-                <div className="mt-2">
-                  <input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                  />
-                </div>
               </div>}
             </div>
             <div>
@@ -188,7 +146,6 @@ const Login = () => {
     </>
   )
 }
-
 
 export default Login
 

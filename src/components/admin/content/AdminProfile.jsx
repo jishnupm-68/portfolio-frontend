@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { BASE_URL, CITY_PREFERENCE, GENDER_OPTIONS, LOCATION_PREFERENCE } from '../../../utils/constants';
 import validator from "validator"
 import { addUser } from '../../../utils/userSlice';
@@ -20,7 +20,6 @@ const AdminProfile = () => {
   const [response, setResponse] = useState("")
   const [error, setError] = useState("")
   const dispatch = useDispatch();
-  const user = useSelector((store) => store?.user)
 
   const fetchUser = async () => {
     try {
@@ -37,7 +36,6 @@ const AdminProfile = () => {
       setCityPreference(...cityPreference)
       setProfileImageUrl(...profileImageUrl);
       setLocationPreference(...locationPreference)
-
     } catch (error) {
       setError(error?.response?.data?.data?.message)
     }
@@ -45,7 +43,6 @@ const AdminProfile = () => {
   useEffect(() => {
     fetchUser()
   }, [])
-
 
   const validateForm = (name, age, gender, description, designation, contactEmail, profileImageUrl, locationPreference, cityPreference) => {
     try {
@@ -57,8 +54,6 @@ const AdminProfile = () => {
       setError(error?.message)
     }
   }
-
-
   const submitForm = (e) => {
     e.preventDefault();
     const result = validateForm(name, age, gender, description, designation, contactEmail, profileImageUrl, locationPreference, cityPreference)
@@ -68,7 +63,6 @@ const AdminProfile = () => {
           const updateProfile = await axios.patch(BASE_URL + "/user/profile", { name, age, gender, description, designation, contactEmail, profileImageUrl, locationPreference, cityPreference }, { withCredentials: true })
           setResponse(updateProfile?.data?.message)
         }
-
       } catch (error) {
         console.log(error)
         setError(error?.response?.data?.message)
@@ -86,99 +80,77 @@ const AdminProfile = () => {
   }, [error, response])
 
   return (
-    <div>
-
-      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className=''>
+      <div className=" flex min-h-full flex-col justify-center px-6 py-12 lg:px-8   ">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
           <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight dark:text-white">Profile </h2>
         </div>
-
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="shadow-lg mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={submitForm}>
-
-           <InputWithLabel Label={"Full Name: "} 
-            value={name} setValue = {setName}
-            optional={""}
+            <InputWithLabel Label={"Full Name: "}
+              value={name} setValue={setName}
+              optional={""}
             />
-
-          <InputWithLabel Label={"Age "} 
-            value={age} setValue = {setAge}
-            optional={""} type={'number'}
+            <InputWithLabel Label={"Age "}
+              value={age} setValue={setAge}
+              optional={""} type={'number'}
             />
-
-               <div className='flex flex-row justify-between'>
-             <div >
-               <label  className="block text-sm/6 font-medium dark:text-gray-100">
-                Location Preference
-              </label>
-             </div>
-              <div className="mt-2">
-                 <div className="mt-2">
-                <DropDown SKILL_CATEGORIES={LOCATION_PREFERENCE} setCategory={setLocationPreference} category={locationPreference}/>
-              </div>
-              </div>
-            </div>
-
-
             <div className='flex flex-row justify-between'>
               <div >
                 <label className="block text-sm/6 font-medium dark:text-gray-100">
-                City Preference
-              </label>
+                  Location Preference
+                </label>
               </div>
               <div className="mt-2">
-                <DropDown SKILL_CATEGORIES={CITY_PREFERENCE} setCategory={setCityPreference} category={cityPreference}/>
+                <div className="mt-2">
+                  <DropDown SKILL_CATEGORIES={LOCATION_PREFERENCE} setCategory={setLocationPreference} category={locationPreference} />
+                </div>
               </div>
             </div>
-
-
             <div className='flex flex-row justify-between'>
-             <div >
-               <label  className="block text-sm/6 font-medium dark:text-gray-100">
-                Gender
-              </label>
-             </div>
+              <div >
+                <label className="block text-sm/6 font-medium dark:text-gray-100">
+                  City Preference
+                </label>
+              </div>
               <div className="mt-2">
-                 <div className="mt-2">
-                <DropDown SKILL_CATEGORIES={GENDER_OPTIONS} setCategory={setGender} category={gender}/>
-                
+                <DropDown SKILL_CATEGORIES={CITY_PREFERENCE} setCategory={setCityPreference} category={cityPreference} />
               </div>
-
-              </div>
-
             </div>
-
+            <div className='flex flex-row justify-between'>
+              <div >
+                <label className="block text-sm/6 font-medium dark:text-gray-100">
+                  Gender
+                </label>
+              </div>
+              <div className="mt-2">
+                <div className="mt-2">
+                  <DropDown SKILL_CATEGORIES={GENDER_OPTIONS} setCategory={setGender} category={gender} />
+                </div>
+              </div>
+            </div>
             <div>
               <label className="block text-sm/6 font-medium dark:text-gray-100">
                 Description
               </label>
               <div className="mt-2">
-              
-                <textarea className="textarea  w-96  block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                 placeholder="Bio"  value={description}
+                <textarea className="textarea  block w-full rounded-md bg-white/5 px-3 py-1.5 text-base dark:text-white outline-1 -outline-offset-1 dark:outline-white/ placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                  placeholder="Bio" value={description}
                   onChange={(e) => setDescription(e.target.value)}></textarea>
-
               </div>
             </div>
-
-            <InputWithLabel Label={"Designation "} 
-            value={designation} setValue = {setDesignation}
-            optional={""} 
+            <InputWithLabel Label={"Designation "}
+              value={designation} setValue={setDesignation}
+              optional={""}
             />
-
-            <InputWithLabel Label={"Contact Email "} 
-            value={contactEmail} setValue = {setContactEmail}
-            optional={""} 
+            <InputWithLabel Label={"Contact Email "}
+              value={contactEmail} setValue={setContactEmail}
+              optional={""}
             />
-
-            <InputWithLabel Label={"Profile Image Url "} 
-            value={profileImageUrl} setValue = {setProfileImageUrl}
-            optional={""} 
+            <InputWithLabel Label={"Profile Image Url "}
+              value={profileImageUrl} setValue={setProfileImageUrl}
+              optional={""}
             />
-
-         
-
-
             <div>
               {error && <div role="alert" className="alert alert-vertical alert-error dark:text-gray-50 my-1">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
@@ -186,7 +158,6 @@ const AdminProfile = () => {
                 </svg>
                 <span >Error! {error}</span>
               </div>}
-
               {response && <div role="alert" className="alert alert-success my-1">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
